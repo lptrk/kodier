@@ -7,6 +7,18 @@ pub fn lex(input: &str) -> Vec<Token> {
 
     while let Some(ch) = chars.peek().copied() {
         match ch {
+            '.' => {
+                chars.next();
+                tokens.push(Token::Period);
+            }
+            ':' => {
+                chars.next();
+                tokens.push(Token::TypeOf);
+            }
+            '=' => {
+                chars.next();
+                tokens.push(Token::Assign);
+            }
             '{' => {
                 chars.next();
                 tokens.push(Token::OpenBrace);
@@ -99,6 +111,7 @@ pub fn lex(input: &str) -> Vec<Token> {
                     "function" => tokens.push(Token::Function),
                     "class" => tokens.push(Token::Class),
                     "interface" => tokens.push(Token::Interface),
+                    "implements" => tokens.push(Token::Implements),
                     _ => tokens.push(Token::Identifier(identifier)),
                 }
             }
@@ -116,8 +129,16 @@ pub fn print_tokens(tokens: &Vec<Token>) {
         match token {
             Token::Identifier(identifier) => println!("Identifier: {}", identifier),
             Token::Export => println!("Export"),
+            Token::Implements => println!("Implements"),
+            Token::TypeOf => println!("TypeOf"),
+            Token::Assign => println!("Assign"),
+            Token::Period => println!("Period"),
             Token::OpenBrace => println!("OpenBrace"),
-            Token::CloseBrace => println!("CloseBrace"),
+            Token::CloseBrace => {
+                println!("CloseBrace");
+                println!();
+                println!();
+            }
             Token::If => println!("If"),
             Token::Return => println!("Return"),
             Token::Function => println!("Function"),
@@ -138,7 +159,10 @@ pub fn print_tokens(tokens: &Vec<Token>) {
             Token::MultilineCommentEnd => println!("MultilineCommentEnd"),
             Token::OpenParantheses => println!("OpenParantheses"),
             Token::CloseParantheses => println!("CloseParantheses"),
-            Token::Semicolon => println!("Semicolon"),
+            Token::Semicolon => {
+                println!("Semicolon");
+                println!();
+            }
         }
     }
 }
